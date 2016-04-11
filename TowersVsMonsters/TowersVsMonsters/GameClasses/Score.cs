@@ -2,7 +2,7 @@
 using System.IO;
 using static TowersVsMonsters.Utils.ConsoleMessage;
 
-namespace TowersVsMonsters.Game
+namespace TowersVsMonsters.GameClasses
 {
     public static class Score
     {
@@ -79,7 +79,7 @@ namespace TowersVsMonsters.Game
 
         }
 
-        public static void SaveScore()
+        private static void SaveScore()
         {
             try
             {

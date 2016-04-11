@@ -5,27 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using TowersVsMonsters.Game;
+using TowersVsMonsters.GameClasses;
 
 namespace TowersVsMonsters
 {
     class TowersVsMonsters
     {
-        
-        public const int FRAME_DURATION = 50;   // In milliseconds
-        public static int CurrentFrame { get; set; } = 1;
-
-
         static void Main(string[] args)
         {
             // Game Init
-
+            InitScreen();
+            var game = new Game();
 
             // Game Loop
             while (true)
             {
                 var frameStart = DateTime.Now;
-                // Change Level (?) - if there is time
+                // Change Difficulty Level (?) - if there is time
 
                 // User Input
 
@@ -38,7 +34,7 @@ namespace TowersVsMonsters
 
                 var frameEnd = DateTime.Now;
                 var frameDuration = frameEnd - frameStart;
-                var frameDurationLeft = FRAME_DURATION - frameDuration.Milliseconds;
+                var frameDurationLeft = game.FrameDuration - frameDuration.Milliseconds;
 
                 Thread.Sleep(frameDurationLeft);
 
@@ -52,7 +48,7 @@ namespace TowersVsMonsters
                     break;
                 }
 
-                CurrentFrame++;
+                game.NextFrame();
             }
 
             // Sleep for a second or two (?)
@@ -70,6 +66,17 @@ namespace TowersVsMonsters
 
             // Close the game
             Environment.Exit(0);
+        }
+
+        private static void InitScreen()
+        {
+            Console.BufferWidth = Console.WindowWidth = 80;
+            Console.BufferHeight = Console.WindowHeight = 60;
+
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;
+
+            Console.Clear();
         }
 
         private static bool GameOverCheck()
