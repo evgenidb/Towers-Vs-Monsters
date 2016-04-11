@@ -1,29 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static TowersVsMonsters.Utils.ConsoleMessage;
 
 namespace TowersVsMonsters.Game
 {
-    public class Score
+    public static class Score
     {
         public const string HIGHSCORE_FILE = @"Contents/Highscore/Highscore.txt";
 
         public static int ScorePoints { get; private set; } = 0;
         public static int BestScore { get; private set; } = 0;
 
-        public void InitScore()
+        public static void Init()
         {
             ScorePoints = 0;
             BestScore = LoadScore();
         }
 
-        public void UpdateScore(int score)
+        public static void UpdateScore(int score)
         {
             ScorePoints += score;
+        }
+
+        public static void DisplayScore()
+        {
+            Console.Write("Score: {0}", ScorePoints);
         }
 
         public static void DisplayFinalSocre(int x, int y)

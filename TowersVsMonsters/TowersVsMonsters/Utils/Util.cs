@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TowersVsMonsters.Utils
 {
-    class Utils
+    public static class Util
     {
     }
 }
