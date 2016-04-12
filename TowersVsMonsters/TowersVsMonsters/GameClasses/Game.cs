@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static TowersVsMonsters.Utils.Util;
 
 namespace TowersVsMonsters.GameClasses
 {
@@ -22,6 +23,23 @@ namespace TowersVsMonsters.GameClasses
         public void NextFrame()
         {
             CurrentFrame += 1;
+        }
+
+        public bool GameOverCheck()
+        {
+            foreach (var lane in Level.Lanes)
+            {
+                var tower = lane.Tower;
+                foreach (var monster in lane.Monsters)
+                {
+                    if (HasCollision(monster, tower))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

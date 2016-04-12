@@ -42,7 +42,7 @@ namespace TowersVsMonsters
                 // Draw
 
                 // Game Over Check
-                var isGameOver = GameOverCheck();
+                var isGameOver = game.GameOverCheck();
                 if (isGameOver)
                 {
                     break;
@@ -77,11 +77,6 @@ namespace TowersVsMonsters
             Console.InputEncoding = Encoding.UTF8;
 
             Console.Clear();
-        }
-
-        private static bool GameOverCheck()
-        {
-            throw new NotImplementedException();
         }
     }
 }
