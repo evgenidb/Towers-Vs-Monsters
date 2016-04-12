@@ -11,6 +11,13 @@ namespace TowersVsMonsters.GameClasses
         public int FrameDuration { get; } = 50; // In milliseconds
         public int CurrentFrame { get; private set; } = 1;
 
+        public Level Level { get; set; }
+
+        public Game()
+        {
+            Level = new Level();
+        }
+
 
         public void NextFrame()
         {
