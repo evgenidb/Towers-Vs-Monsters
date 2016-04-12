@@ -21,11 +21,13 @@ namespace TowersVsMonsters
             while (true)
             {
                 var frameStart = DateTime.Now;
+
                 // Change Difficulty Level (?) - if there is time
 
                 // User Input
 
                 // Update
+                game.Update();
                 //      Move Objects
                 //      Update BulletBar
                 //      Spawn Enemies, Bullets, Etc.
@@ -38,8 +40,8 @@ namespace TowersVsMonsters
 
                 Thread.Sleep(frameDurationLeft);
 
-                // Clear Screen (?)
                 // Draw
+                game.Draw();
 
                 // Game Over Check
                 var isGameOver = game.GameOverCheck();

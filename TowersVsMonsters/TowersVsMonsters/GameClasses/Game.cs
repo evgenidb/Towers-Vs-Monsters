@@ -12,11 +12,23 @@ namespace TowersVsMonsters.GameClasses
         public int FrameDuration { get; } = 50; // In milliseconds
         public int CurrentFrame { get; private set; } = 1;
 
-        public Level Level { get; set; }
+        public Level Level { get; private set; }
+        public View View { get; private set; }
 
         public Game()
         {
             Level = new Level();
+            View = new View(Level);
+        }
+
+        public void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Draw()
+        {
+            View.Draw();
         }
 
 
