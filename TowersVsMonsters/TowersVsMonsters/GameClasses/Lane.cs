@@ -9,16 +9,35 @@ namespace TowersVsMonsters.GameClasses
 {
     public class Lane
     {
+        #region Private Properties
+        private HashSet<Monster> MonsterCollection{ get; set; }
+        private HashSet<Bullet> BulletsCollection { get; set; }
+        #endregion
+
+
         public static int Length { get; private set; } = 10;
 
-        public HashSet<Monster> Monsters { get; private set; }
-        public HashSet<Bullet> Bullets { get; private set; }
+        public IEnumerable<Monster> Monsters
+        {
+            get
+            {
+                return MonsterCollection;
+            }
+        }
+
+        public IEnumerable<Bullet> Bullets
+        {
+            get
+            {
+                return BulletsCollection;
+            }
+        }
         public Tower Tower { get; private set; }
 
         public Lane()
         {
-            Monsters = new HashSet<Monster>();
-            Bullets = new HashSet<Bullet>();
+            MonsterCollection = new HashSet<Monster>();
+            BulletsCollection = new HashSet<Bullet>();
             Tower = new Tower();
         }
 
@@ -27,45 +46,45 @@ namespace TowersVsMonsters.GameClasses
             Length = newLength;
 
             // Remove Monsters all out of the lane
-            foreach (var monster in Monsters)
+            foreach (var monster in MonsterCollection)
             {
                 if (true)
                 {
-                    Monsters.Remove(monster);
+                    MonsterCollection.Remove(monster);
                 }
             }
 
             // Remove Bullets all out of the lane
-            foreach (var bullet in Bullets)
+            foreach (var bullet in BulletsCollection)
             {
                 if (true)
                 {
-                    Bullets.Remove(bullet);
+                    BulletsCollection.Remove(bullet);
                 }
             }
         }
 
         public void MoveMonsters()
         {
-            foreach (var monster in Monsters)
+            foreach (var monster in MonsterCollection)
             {
                 monster.LanePosition -= 1;
                 if (!IsInsideLane(monster))
                 {
-                    Monsters.Remove(monster);
+                    MonsterCollection.Remove(monster);
                 }
             }
-            Monsters.RemoveWhere(
+            MonsterCollection.RemoveWhere(
                 monster => !IsInsideLane(monster));
         }
 
         public void MoveBullets()
         {
-            foreach (var bullet in Bullets)
+            foreach (var bullet in BulletsCollection)
             {
                 bullet.LanePosition += 1;
             }
-            Bullets.RemoveWhere(
+            BulletsCollection.RemoveWhere(
                 bullet => !IsInsideLane(bullet));
         }
 
@@ -75,7 +94,7 @@ namespace TowersVsMonsters.GameClasses
 
             // Check if the space is occupied by another bullet
             // Don't add the new one in this case.
-            foreach (var otherMonster in Bullets)
+            foreach (var otherMonster in MonsterCollection)
             {
                 if (otherMonster.LanePosition == monster.LanePosition)
                 {
@@ -83,7 +102,7 @@ namespace TowersVsMonsters.GameClasses
                 }
             }
 
-            Monsters.Add(monster);
+            MonsterCollection.Add(monster);
         }
 
         public void ShootBullet(Bullet bullet)
@@ -92,15 +111,15 @@ namespace TowersVsMonsters.GameClasses
 
             // Check if the space is occupied by another bullet
             // Don't add the new one in this case.
-            foreach (var otherBullet in Bullets)
+            foreach (var otherBullet in BulletsCollection)
             {
                 if (otherBullet.LanePosition == bullet.LanePosition)
                 {
                     return;
                 }
             }
-            
-            Bullets.Add(bullet);
+
+            BulletsCollection.Add(bullet);
         }
 
         public bool IsInsideLane(ILaneObject laneObject)
@@ -110,7 +129,11 @@ namespace TowersVsMonsters.GameClasses
             var pastTowerCheck = 0 <= lanePosition;
             var pastLengthCheck = lanePosition <= Length;
 
-            return pastTowerCheck && pastLengthCheck;
+            var isInside =
+                pastTowerCheck &&
+                pastLengthCheck;
+
+            return isInside;
         }
     }
 }

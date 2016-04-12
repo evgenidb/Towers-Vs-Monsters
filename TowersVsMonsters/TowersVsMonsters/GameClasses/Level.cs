@@ -8,7 +8,20 @@ namespace TowersVsMonsters.GameClasses
 {
     public class Level
     {
-        public List<Lane> Lanes { get; private set; }
+        #region Private Properties
+        private List<Lane> LaneCollection { get; set; }
+        #endregion
+
+        public MenuBar Menu { get; set; }
+
+        public IReadOnlyList<Lane> Lanes
+        {
+            get
+            {
+                return LaneCollection;
+            }
+        }
+
         public int LanesLength
         {
             get { return Lane.Length; }
@@ -16,7 +29,8 @@ namespace TowersVsMonsters.GameClasses
 
         public Level()
         {
-            Lanes = new List<Lane>();
+            Menu = new MenuBar();
+            LaneCollection = new List<Lane>();
             AddLane();
             AddLane();
         }
@@ -24,12 +38,12 @@ namespace TowersVsMonsters.GameClasses
         public void AddLane()
         {
             var lane = new Lane();
-            Lanes.Add(lane);
+            LaneCollection.Add(lane);
         }
 
         public void ChangeLanesLength(int newLength)
         {
-            foreach (var lane in Lanes)
+            foreach (var lane in LaneCollection)
             {
                 lane.ChangeLanesLength(newLength);
             }
