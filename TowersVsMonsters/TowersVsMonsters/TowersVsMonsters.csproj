@@ -43,8 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game\Game.cs" />
-    <Compile Include="Game\Score.cs" />
+    <Compile Include="GameClasses\Bullet.cs" />
+    <Compile Include="GameClasses\Game.cs" />
+    <Compile Include="GameClasses\Interfaces\ILaneObject.cs" />
+    <Compile Include="GameClasses\Lane.cs" />
+    <Compile Include="GameClasses\Level.cs" />
+    <Compile Include="GameClasses\Monster.cs" />
+    <Compile Include="GameClasses\Score.cs" />
+    <Compile Include="GameClasses\Tower.cs" />
     <Compile Include="TowersVsMonsters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ConsoleMessage.cs" />
