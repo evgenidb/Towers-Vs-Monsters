@@ -136,6 +136,8 @@ namespace TowersVsMonsters.GameClasses
         public void DiscardBullet(Bullet replacementBullet)
         {
             GetBullet(replacementBullet);
+
+            Score.UpdateScore(Score.BulletDiscardedPoints);
         }
 
         public Bullet UseBullet(Bullet replacementBullet)

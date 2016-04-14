@@ -11,9 +11,14 @@ namespace TowersVsMonsters.GameClasses
         private static int currentBestScore = 0;
         #endregion
 
-        public const string HIGHSCORE_FILE = @"Contents/Highscore/Highscore.txt";
+        // Scores
+        public static int MonsterKilledPoints { get; set; } = 20;
+        public static int BulletDiscardedPoints { get; set; } = -10;
 
+        // Other
+        public const string HIGHSCORE_FILE = @"Contents/Highscore/Highscore.txt";
         
+
         public static int BestScore { get; private set; } = 0;
 
         public static int ScorePoints

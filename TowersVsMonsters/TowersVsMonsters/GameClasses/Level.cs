@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TowersVsMonsters.GameClasses.Enums;
 using TowersVsMonsters.GameClasses.UserCommands;
 using TowersVsMonsters.GameClasses.UserCommands.Enums;
 using TowersVsMonsters.GameClasses.UserCommands.Interfaces;
-using static TowersVsMonsters.GameClasses.GameObjectFactory;
-using static TowersVsMonsters.GameClasses.Enums.DifficultyLevel;
 using TowersVsMonsters.Utils;
+using static TowersVsMonsters.GameClasses.Enums.DifficultyLevel;
+using static TowersVsMonsters.GameClasses.GameObjectFactory;
 
 namespace TowersVsMonsters.GameClasses
 {
@@ -133,6 +129,8 @@ namespace TowersVsMonsters.GameClasses
 
         public void SetDifficulty(DifficultyLevel difficulty)
         {
+            difficultyLevel = difficulty;
+
             switch (difficulty)
             {
                 default:
@@ -147,6 +145,10 @@ namespace TowersVsMonsters.GameClasses
                     Menu.SetPreviewLength(5);
 
                     SetLaneCount(2);
+                    ChangeLanesLength(40);
+
+                    Score.MonsterKilledPoints = 40;
+                    Score.BulletDiscardedPoints = 0;
                     break;
 
                 case Normal:
@@ -160,6 +162,10 @@ namespace TowersVsMonsters.GameClasses
                     Menu.SetPreviewLength(4);
 
                     SetLaneCount(3);
+                    ChangeLanesLength(30);
+
+                    Score.MonsterKilledPoints = 30;
+                    Score.BulletDiscardedPoints = -5;
                     break;
 
                 case Hard:
@@ -173,6 +179,10 @@ namespace TowersVsMonsters.GameClasses
                     Menu.SetPreviewLength(4);
 
                     SetLaneCount(4);
+                    ChangeLanesLength(20);
+
+                    Score.MonsterKilledPoints = 20;
+                    Score.BulletDiscardedPoints = -10;
                     break;
             }
         }

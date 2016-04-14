@@ -24,10 +24,10 @@ namespace TowersVsMonsters.GameClasses
 
         public Game()
         {
+            RandomGenerator = new Random();
             Level = new Level();
             View = new View(Level);
             UserCommand = null;
-            RandomGenerator = new Random();
         }
 
         public void ChangeDifficultyLevel()

@@ -11,7 +11,7 @@ namespace TowersVsMonsters.GameClasses
     {
         #region Private Properties
         private HashSet<Monster> MonsterCollection{ get; set; }
-        private HashSet<Bullet> BulletsCollection { get; set; }
+        private HashSet<Bullet> BulletCollection { get; set; }
         #endregion
 
 
@@ -29,7 +29,7 @@ namespace TowersVsMonsters.GameClasses
         {
             get
             {
-                return BulletsCollection;
+                return BulletCollection;
             }
         }
         public Tower Tower { get; private set; }
@@ -37,7 +37,7 @@ namespace TowersVsMonsters.GameClasses
         public Lane()
         {
             MonsterCollection = new HashSet<Monster>();
-            BulletsCollection = new HashSet<Bullet>();
+            BulletCollection = new HashSet<Bullet>();
             Tower = new Tower();
         }
 
@@ -45,23 +45,13 @@ namespace TowersVsMonsters.GameClasses
         {
             Length = newLength;
 
-            // Remove Monsters all out of the lane
-            foreach (var monster in MonsterCollection)
-            {
-                if (true)
-                {
-                    MonsterCollection.Remove(monster);
-                }
-            }
+            // Remove all Bullets outside the lane
+            MonsterCollection.RemoveWhere(
+                monster => !IsInsideLane(monster));
 
-            // Remove Bullets all out of the lane
-            foreach (var bullet in BulletsCollection)
-            {
-                if (true)
-                {
-                    BulletsCollection.Remove(bullet);
-                }
-            }
+            // Remove all Bullets outside the lane
+            BulletCollection.RemoveWhere(
+                bullet => !IsInsideLane(bullet));
         }
 
         public void MoveMonsters()
@@ -80,11 +70,11 @@ namespace TowersVsMonsters.GameClasses
 
         public void MoveBullets()
         {
-            foreach (var bullet in BulletsCollection)
+            foreach (var bullet in BulletCollection)
             {
                 bullet.LanePosition += 1;
             }
-            BulletsCollection.RemoveWhere(
+            BulletCollection.RemoveWhere(
                 bullet => !IsInsideLane(bullet));
         }
 
@@ -111,7 +101,7 @@ namespace TowersVsMonsters.GameClasses
 
             // Check if the space is occupied by another bullet
             // Don't add the new one in this case.
-            foreach (var otherBullet in BulletsCollection)
+            foreach (var otherBullet in BulletCollection)
             {
                 if (otherBullet.LanePosition == bullet.LanePosition)
                 {
@@ -119,7 +109,7 @@ namespace TowersVsMonsters.GameClasses
                 }
             }
 
-            BulletsCollection.Add(bullet);
+            BulletCollection.Add(bullet);
         }
 
         public bool IsInsideLane(ILaneObject laneObject)
@@ -138,21 +128,33 @@ namespace TowersVsMonsters.GameClasses
 
         public void CollisionCheck()
         {
-            foreach (var monster in Monsters)
+            var gameObjectsToRemove = new HashSet<ILaneObject>();
+            
+            foreach (var monster in MonsterCollection)
             {
-                foreach (var bullet in Bullets)
+                foreach (var bullet in BulletCollection)
                 {
                     if (monster.LanePosition <= bullet.LanePosition)
                     {
                         if (monster.Color == bullet.Color)
                         {
-                            MonsterCollection.Remove(monster);
+                            gameObjectsToRemove.Add(monster);
+
+                            // Killed a monster => scored
+                            Score.UpdateScore(
+                                Score.MonsterKilledPoints);
                         }
 
-                        BulletsCollection.Remove(bullet);
+                        gameObjectsToRemove.Add(bullet);
                     }
                 }
             }
+
+            // Remove the objects
+            MonsterCollection.RemoveWhere(
+                monster => gameObjectsToRemove.Contains(monster));
+            BulletCollection.RemoveWhere(
+                bullet => gameObjectsToRemove.Contains(bullet));
         }
     }
 }
