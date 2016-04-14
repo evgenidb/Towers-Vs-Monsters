@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using static System.ConsoleColor;
 
 namespace TowersVsMonsters.Utils
@@ -14,6 +15,9 @@ namespace TowersVsMonsters.Utils
 
         public const ConsoleColor MESSAGE_COLOR = White;
         public const ConsoleColor ERROR_COLOR = Red;
+
+        public const int MESSAGE_WAIT = 0;
+        public const int ERROR_WAIT = 10000;
 
 
         public static void Message(string message)
@@ -39,6 +43,8 @@ namespace TowersVsMonsters.Utils
                 color: MESSAGE_COLOR,
                 x: x,
                 y: y);
+
+            Thread.Sleep(MESSAGE_WAIT);
         }
 
         public static void Message(int x, int y, string format, params object[] args)
@@ -79,10 +85,14 @@ namespace TowersVsMonsters.Utils
 
         public static void MultilineMessage(int x, int y, params string[] lines)
         {
-            MultilineMessage(
-                lines: lines,
-                x: x,
-                y: y);
+            foreach (var line in lines)
+            {
+                Message(
+                    message: line,
+                    x: x,
+                    y: y);
+                y++;
+            }
         }
 
         public static void Error(string message)
@@ -108,6 +118,8 @@ namespace TowersVsMonsters.Utils
                 color: ERROR_COLOR,
                 x: x,
                 y: y);
+
+            Thread.Sleep(ERROR_WAIT);
         }
 
         public static void Error(int x, int y, string format, params object[] args)
@@ -148,17 +160,21 @@ namespace TowersVsMonsters.Utils
 
         public static void MultilineError(int x, int y, params string[] lines)
         {
-            MultilineError(
-                lines: lines,
-                x: x,
-                y: y);
+            foreach (var line in lines)
+            {
+                Error(
+                    message: line,
+                    x: x,
+                    y: y);
+                y++;
+            }
         }
 
         private static void DisplayText(string text, ConsoleColor color, int x, int y)
         {
             Console.SetCursorPosition(x, y);
             Console.ForegroundColor = color;
-            Console.Write(text);
+            Console.WriteLine(text);
             Console.ResetColor();
         }
 

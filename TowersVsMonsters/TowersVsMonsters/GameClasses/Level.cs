@@ -141,7 +141,7 @@ namespace TowersVsMonsters.GameClasses
                     MonsterSpawnTime = MonsterSpeedTime * 4;
 
                     Menu.SetAutoDiscardTime(20);
-                    Menu.SetShootTime(40);
+                    Menu.SetShootTimeout(5);
                     Menu.SetPreviewLength(5);
 
                     SetLaneCount(2);
@@ -158,7 +158,7 @@ namespace TowersVsMonsters.GameClasses
                     MonsterSpawnTime = MonsterSpeedTime * 4;
 
                     Menu.SetAutoDiscardTime(15);
-                    Menu.SetShootTime(30);
+                    Menu.SetShootTimeout(30);
                     Menu.SetPreviewLength(4);
 
                     SetLaneCount(3);
@@ -175,7 +175,7 @@ namespace TowersVsMonsters.GameClasses
                     MonsterSpawnTime = MonsterSpeedTime * 3;
 
                     Menu.SetAutoDiscardTime(10);
-                    Menu.SetShootTime(30);
+                    Menu.SetShootTimeout(30);
                     Menu.SetPreviewLength(4);
 
                     SetLaneCount(4);

@@ -47,7 +47,7 @@ namespace TowersVsMonsters
                 var frameDurationLeft =
                     game.FrameDuration - frameDuration.Milliseconds;
 
-                Thread.Sleep(frameDurationLeft);
+                Thread.Sleep(Math.Max(0, frameDurationLeft));
             }
 
             // Sleep for a second or two (?)

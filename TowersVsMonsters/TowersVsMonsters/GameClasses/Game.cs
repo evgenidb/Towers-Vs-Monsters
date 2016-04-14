@@ -28,6 +28,7 @@ namespace TowersVsMonsters.GameClasses
             Level = new Level();
             View = new View(Level);
             UserCommand = null;
+            Score.Init();
         }
 
         public void ChangeDifficultyLevel()
@@ -84,15 +85,18 @@ namespace TowersVsMonsters.GameClasses
 
                 IUserCommand command = null;
 
-                if (laneIndex >= 0)
+                if (0 <= laneIndex && laneIndex < Level.Lanes.Count)
                 {
-                    var replacementBullet = RandomBullet();
-                    var bullet =
-                        Level.Menu.UseBullet(
-                            replacementBullet);
+                    if (!Level.Menu.IsMenuLocked)
+                    {
+                        var replacementBullet = RandomBullet();
+                        var bullet =
+                            Level.Menu.UseBullet(
+                                replacementBullet);
 
-                    command = new ShootCommand(
-                        laneIndex, bullet);
+                        command = new ShootCommand(
+                            laneIndex, bullet);
+                    }
                 }
                 else
                 {

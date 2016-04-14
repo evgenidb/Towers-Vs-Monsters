@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TowersVsMonsters.GameClasses.UserCommands;
 using TowersVsMonsters.GameClasses.UserCommands.Enums;
@@ -58,7 +59,7 @@ namespace TowersVsMonsters.GameClasses
             ResetMenuFrameCounter();
         }
 
-        public void SetShootTime(int shootTime)
+        public void SetShootTimeout(int shootTime)
         {
             ShootTimeout = shootTime;
             ResetMenuFrameCounter();
@@ -66,7 +67,7 @@ namespace TowersVsMonsters.GameClasses
 
         public void ResetMenuFrameCounter()
         {
-            MenuFrameCounter = 1;
+            MenuFrameCounter = 0;
         }
 
         public void SetPreviewLength(int newLength)
@@ -107,9 +108,9 @@ namespace TowersVsMonsters.GameClasses
 
         public void Update(int currentFrame, IUserCommand command)
         {
+            MenuFrameCounter += 1;
             if (IsMenuLocked)
             {
-                MenuFrameCounter += 1;
                 return;
             }
 
@@ -142,6 +143,11 @@ namespace TowersVsMonsters.GameClasses
 
         public Bullet UseBullet(Bullet replacementBullet)
         {
+            if (IsMenuLocked)
+            {
+                return null;
+            }
+            ResetMenuFrameCounter();
             LockMenu = true;
             return GetBullet(replacementBullet);
         }

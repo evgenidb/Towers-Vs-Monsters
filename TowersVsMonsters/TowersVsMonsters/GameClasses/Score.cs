@@ -66,15 +66,17 @@ namespace TowersVsMonsters.GameClasses
         {
             if (ScorePoints <= BestScore)
             {
-                Message("Your Score: {0}", ScorePoints);
-                Message("Best Score: {0}", ScorePoints);
+                MultilineMessage(
+                    string.Format("Your Score: {0}", ScorePoints),
+                    string.Format("Best Score: {0}", BestScore));
             }
             else
             {
                 BestScore = ScorePoints;
 
-                Message("Congrats!");
-                Message("New Best score: {0}", ScorePoints);
+                MultilineMessage(
+                    "Congrats!",
+                    string.Format("New Best score: {0}", ScorePoints));
 
                 SaveScore();
             }
