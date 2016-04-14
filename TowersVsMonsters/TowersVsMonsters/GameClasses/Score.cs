@@ -6,10 +6,39 @@ namespace TowersVsMonsters.GameClasses
 {
     public static class Score
     {
+        #region Fields
+        private static int scorePoints = 0;
+        private static int currentBestScore = 0;
+        #endregion
+
         public const string HIGHSCORE_FILE = @"Contents/Highscore/Highscore.txt";
 
-        public static int ScorePoints { get; private set; } = 0;
+        
         public static int BestScore { get; private set; } = 0;
+
+        public static int ScorePoints
+        {
+            get
+            {
+                return scorePoints;
+            }
+            set
+            {
+                scorePoints = Math.Max(0, value);
+            }
+        }
+
+        public static int CurrentBestScore
+        {
+            get
+            {
+                return currentBestScore;
+            }
+            set
+            {
+                currentBestScore = Math.Max(currentBestScore, value);
+            }
+        }
 
         public static void Init()
         {
@@ -20,6 +49,7 @@ namespace TowersVsMonsters.GameClasses
         public static void UpdateScore(int score)
         {
             ScorePoints += score;
+            CurrentBestScore = ScorePoints;
         }
 
         public static void DisplayScore()

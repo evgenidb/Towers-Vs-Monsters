@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using TowersVsMonsters.GameClasses;
+using TowersVsMonsters.Utils;
 
 namespace TowersVsMonsters
 {
@@ -16,31 +13,23 @@ namespace TowersVsMonsters
             // Game Init
             InitScreen();
             var game = new Game();
+            
+            // Wait for the user before starting the game
+            WaitForUser();
+
 
             // Game Loop
             while (true)
             {
                 var frameStart = DateTime.Now;
 
-                // Change Difficulty Level (?) - if there is time
 
-                // User Input
+                game.ChangeDifficultyLevel();
 
-                // Update
+                game.UserInput();
+
                 game.Update();
-                //      Move Objects
-                //      Update BulletBar
-                //      Spawn Enemies, Bullets, Etc.
-                //      Collision Check
-                //      Remove Objetcs
 
-                var frameEnd = DateTime.Now;
-                var frameDuration = frameEnd - frameStart;
-                var frameDurationLeft = game.FrameDuration - frameDuration.Milliseconds;
-
-                Thread.Sleep(frameDurationLeft);
-
-                // Draw
                 game.Draw();
 
                 // Game Over Check
@@ -51,6 +40,14 @@ namespace TowersVsMonsters
                 }
 
                 game.NextFrame();
+
+                // Handle FPS
+                var frameEnd = DateTime.Now;
+                var frameDuration = frameEnd - frameStart;
+                var frameDurationLeft =
+                    game.FrameDuration - frameDuration.Milliseconds;
+
+                Thread.Sleep(frameDurationLeft);
             }
 
             // Sleep for a second or two (?)
@@ -70,10 +67,27 @@ namespace TowersVsMonsters
             Environment.Exit(0);
         }
 
+        private static void WaitForUser()
+        {
+            Console.Clear();
+            ConsoleMessage.Message("Press any key to start.");
+            Console.ReadKey(intercept: true);
+            while (Console.KeyAvailable)
+            {
+                Console.ReadKey(intercept: true);
+            }
+            Console.Clear();
+        }
+
         private static void InitScreen()
         {
-            Console.BufferWidth = Console.WindowWidth = 80;
-            Console.BufferHeight = Console.WindowHeight = 60;
+            Console.BufferWidth = Console.WindowWidth =
+                Game.WINDOW_WIDTH;
+
+            Console.BufferHeight = Console.WindowHeight =
+                Game.WINDOW_HEIGHT;
+
+            Console.CursorVisible = false;
 
             Console.OutputEncoding = Encoding.UTF8;
             Console.InputEncoding = Encoding.UTF8;

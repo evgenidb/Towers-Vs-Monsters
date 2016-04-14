@@ -91,7 +91,7 @@ namespace TowersVsMonsters.GameClasses
         public void SpawnMonster(Monster monster)
         {
             monster.LanePosition = Length;
-
+            
             // Check if the space is occupied by another bullet
             // Don't add the new one in this case.
             foreach (var otherMonster in MonsterCollection)
@@ -134,6 +134,25 @@ namespace TowersVsMonsters.GameClasses
                 pastLengthCheck;
 
             return isInside;
+        }
+
+        public void CollisionCheck()
+        {
+            foreach (var monster in Monsters)
+            {
+                foreach (var bullet in Bullets)
+                {
+                    if (monster.LanePosition <= bullet.LanePosition)
+                    {
+                        if (monster.Color == bullet.Color)
+                        {
+                            MonsterCollection.Remove(monster);
+                        }
+
+                        BulletsCollection.Remove(bullet);
+                    }
+                }
+            }
         }
     }
 }

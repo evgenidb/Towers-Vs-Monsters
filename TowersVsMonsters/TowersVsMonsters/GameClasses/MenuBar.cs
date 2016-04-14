@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowersVsMonsters.GameClasses.UserCommands;
+using TowersVsMonsters.GameClasses.UserCommands.Enums;
+using TowersVsMonsters.GameClasses.UserCommands.Interfaces;
+using static TowersVsMonsters.GameClasses.GameObjectFactory;
 
 namespace TowersVsMonsters.GameClasses
 {
@@ -13,7 +17,7 @@ namespace TowersVsMonsters.GameClasses
         #endregion
 
 
-        public int BulletsPreviewLength { get; private set; } = 5;
+        public int BulletsPreviewLength { get; private set; }
         public IEnumerable<Bullet> BulletsPreview
         {
             get
@@ -22,17 +26,62 @@ namespace TowersVsMonsters.GameClasses
             }
         }
 
-        public MenuBar()
+        public int AutoDiscardTime { get; private set; }
+        public int ShootTimeout { get; private set; }
+
+        private int MenuFrameCounter { get; set; }
+        private bool LockMenu { get; set; }
+        public bool IsMenuLocked
         {
-            Bullets = new LinkedList<Bullet>();
+            get
+            {
+                var isLocked =
+                    LockMenu &&
+                    (MenuFrameCounter < ShootTimeout);
+
+                LockMenu = isLocked;
+
+                return isLocked;
+            }
         }
 
-        public void ChangePreviewLength(int newLength)
+        public MenuBar()
+        {
+            LockMenu = false;
+            Bullets = new LinkedList<Bullet>();
+            ResetMenuFrameCounter();
+        }
+
+        public void SetAutoDiscardTime(int discardTime)
+        {
+            AutoDiscardTime = discardTime;
+            ResetMenuFrameCounter();
+        }
+
+        public void SetShootTime(int shootTime)
+        {
+            ShootTimeout = shootTime;
+            ResetMenuFrameCounter();
+        }
+
+        public void ResetMenuFrameCounter()
+        {
+            MenuFrameCounter = 1;
+        }
+
+        public void SetPreviewLength(int newLength)
         {
             BulletsPreviewLength = newLength;
+            // If there are too many bullets
             while (Bullets.Count > newLength)
             {
                 RemoveBullet();
+            }
+            // If there are not enough bullets
+            while (Bullets.Count < newLength)
+            {
+                var randomBullet = RandomBullet();
+                AddBullet(randomBullet);
             }
         }
 
@@ -56,13 +105,49 @@ namespace TowersVsMonsters.GameClasses
             Bullets.RemoveLast();
         }
 
+        public void Update(int currentFrame, IUserCommand command)
+        {
+            if (IsMenuLocked)
+            {
+                MenuFrameCounter += 1;
+                return;
+            }
+
+            if (command?.CommandType == UserCommandType.DiscardBullet)
+            {
+                var discardCommand =
+                    command as DiscardBulletCommand;
+
+                var replacementBullet =
+                    discardCommand.ReplacementBullet;
+
+                DiscardBullet(replacementBullet);
+                return;
+            }
+
+            if (MenuFrameCounter % AutoDiscardTime == 0)
+            {
+                var replacementBullet = RandomBullet();
+                DiscardBullet(replacementBullet);
+                return;
+            }
+        }
+
         public void DiscardBullet(Bullet replacementBullet)
         {
             GetBullet(replacementBullet);
         }
 
-        public Bullet GetBullet(Bullet replacementBullet)
+        public Bullet UseBullet(Bullet replacementBullet)
         {
+            LockMenu = true;
+            return GetBullet(replacementBullet);
+        }
+
+        private Bullet GetBullet(Bullet replacementBullet)
+        {
+            ResetMenuFrameCounter();
+
             Bullets.AddLast(replacementBullet);
             var bullet = Bullets.First;
             Bullets.RemoveFirst();

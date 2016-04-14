@@ -1,10 +1,16 @@
 ﻿using System;
 using TowersVsMonsters.GameClasses.Interfaces;
+using static System.ConsoleColor;
 
 namespace TowersVsMonsters.GameClasses
 {
     public class Tower: ILaneObject
     {
+        #region Fields
+        private const char SYMBOL = 'T';
+        private const ConsoleColor color = Magenta;
+        #endregion
+
         public int LanePosition
         {
             get
@@ -20,6 +26,22 @@ namespace TowersVsMonsters.GameClasses
 
                 throw new NotSupportedException(
                     exceptionMessage);
+            }
+        }
+
+        public char Symbol
+        {
+            get
+            {
+                return SYMBOL;
+            }
+        }
+
+        public ConsoleColor Color
+        {
+            get
+            {
+                return color;
             }
         }
     }

@@ -16,7 +16,7 @@ namespace TowersVsMonsters.GameClasses
             // Clear Screen (?)
             // Draw
 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

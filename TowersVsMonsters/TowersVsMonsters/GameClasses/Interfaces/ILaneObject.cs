@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TowersVsMonsters.GameClasses.Interfaces
 {
@@ -11,7 +7,14 @@ namespace TowersVsMonsters.GameClasses.Interfaces
         /// <summary>
         /// The position on the lane: [1, LaneLength];
         /// Zero is reserved for the Tower.
+        /// The real X, Y screen coordinates
+        /// of the Game Obejct
+        /// can be inferred from the Lane's coordinates
         /// </summary>
         int LanePosition { get; set; }
+
+        // Graphics for the Game Object
+        char Symbol { get; }
+        ConsoleColor Color { get; }
     }
 }
